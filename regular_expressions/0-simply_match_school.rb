@@ -1,2 +1,2 @@
 #!/usr/bin/env ruby
-#/\D*+g/ /Holberton/
+puts ARGV[0].scan(/School/).join
