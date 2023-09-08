@@ -1,2 +1,2 @@
 #!/usr/bin/env ruby
-#Holbe {1, 1} ton
+#puts ARGV[0].scan(/School/).join
