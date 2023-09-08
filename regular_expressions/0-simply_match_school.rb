@@ -1,2 +1,2 @@
 #!/usr/bin/env ruby
-#Holb {1, 1} erton
+#puts ARGV[0].scan(/School/).join
