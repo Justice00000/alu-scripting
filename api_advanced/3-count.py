@@ -4,8 +4,6 @@ import requests
 
 def count_words(subreddit: str, word_list: list, after: str = "", words_count: dict = {}):
     """Count occurrences of specified words in subreddit post titles."""
-    subreddit_lower = subreddit.lower()
-
     if not words_count:
         words_count = {word.lower(): 0 for word in word_list}
 
@@ -16,7 +14,7 @@ def count_words(subreddit: str, word_list: list, after: str = "", words_count: d
                 print(f'{word}: {count}')
         return None
 
-    url = f"https://www.reddit.com/r/{subreddit_lower}/hot.json?limit=100"
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=100"
     headers = {"User-Agent": "LetsGo/1.0 by Justice00101"}
     params = {'after': after}
 
@@ -42,3 +40,8 @@ def count_words(subreddit: str, word_list: list, after: str = "", words_count: d
         return None
 
     count_words(subreddit, word_list, after_token, words_count)
+
+# Example usage:
+subreddit_name = "learnpython"
+words_to_count = ["python", "learn", "reddit"]
+count_words(subreddit_name, words_to_count)
