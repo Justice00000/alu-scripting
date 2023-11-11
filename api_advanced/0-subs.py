@@ -1,16 +1,22 @@
 #!/usr/bin/python3
+""""Doc"""
 import requests
-"""
-Query the Reddit API and return the number of subscribers of a given subreddit
-"""
+
 
 def number_of_subscribers(subreddit):
-    """Main function"""
-    URL = f"https://www.reddit.com/r/{subreddit}/about.json"
-    
-    HEADERS = {"User-Agent": "PostmanRuntime/7.35.0"}
-    try:
-        RESPONSE = requests.get(URL, headers=HEADERS, allow_redirects=False)
-        return RESPONSE.json().get("data").get("subscribers")
-    except Exception as e:
+    """"Doc"""
+    URL = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+
+    my_headers = {
+        "User-Agent": "LetsGo/0.1 by Justice00101"
+        }
+
+    raw_response = requests.get(URL, headers=my_headers, allow_redirects=False)
+
+    if raw_response.status_code == 200:
+        json_response = raw_response.json()
+        sub_count = json_response['data']['subscribers']
+        return sub_count
+
+    else:
         return 0
