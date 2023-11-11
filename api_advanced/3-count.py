@@ -1,47 +1,42 @@
 #!/usr/bin/python3
-"""3-count.py"""
+""""3-count.py"""
 import requests
 
-def count_words(subreddit: str, word_list: list, after: str = "", words_count: dict = {}):
-    """Count occurrences of specified words in subreddit post titles."""
+
+def count_words(subreddit, word_list, after="", words_count={}):
+    """"count words"""
     if not words_count:
-        words_count = {word.lower(): 0 for word in word_list}
+        for word in word_list:
+            if word.lower() not in words_count:
+                words_count[word.lower()] = 0
 
     if after is None:
-        sorted_words_count = sorted(words_count.items(), key=lambda x: (-x[1], x[0]))
-        for word, count in sorted_words_count:
-            if count:
-                print(f'{word}: {count}')
+        wordict = sorted(words_count.items(), key=lambda x: (-x[1], x[0]))
+        for word in wordict:
+            if word[1]:
+                print('{}: {}'.format(word[0], word[1]))
         return None
-
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=100"
-    headers = {"User-Agent": "LetsGo/1.0 by Justice00101"}
+    URL = "https://www.reddit.com/r/{}/hot.json?limit=100".format(subreddit)
+    my_headers = {
+        "User-Agent": "LetsGo/0.1 by Justice00101"
+        }
     params = {'after': after}
+    response = requests.get(URL, headers=my_headers, params=params)
+
+    if response.status_code != 200:
+        return None
 
     try:
-        response = requests.get(url, headers=headers, params=params)
-        response.raise_for_status()
-
         hot = response.json()['data']['children']
-        after_token = response.json()['data']['after']
-
+        aft = response.json()['data']['after']
         for post in hot:
             title = post['data']['title']
-            lower_title_words = [word.lower() for word in title.split(' ')]
+            lower = [word.lower() for word in title.split(' ')]
 
-            for word in words_count:
-                words_count[word] += lower_title_words.count(word)
+            for word in words_count.keys():
+                words_count[word] += lower.count(word)
 
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        return None
-    except KeyError:
-        print("Error: Failed to parse Reddit API response.")
+    except Exception:
         return None
 
-    count_words(subreddit, word_list, after_token, words_count)
-
-# Example usage:
-subreddit_name = "learnpython"
-words_to_count = ["python", "learn", "reddit"]
-count_words(subreddit_name, words_to_count)
+    count_words(subreddit, word_list, aft, words_count)
