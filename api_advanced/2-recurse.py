@@ -7,7 +7,7 @@ def recurse(subreddit, hot_list=[], after=None):
     """ returns list with titles """
     URL = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
     my_headers = {
-        "User-Agent": "LetsGo/0.1 by Justice00101)"
+        "User-Agent": "LetsGo/0.1 (by u/Justice00101)""
         }
     params = {'after': after}
     response = requests.get(URL, headers=my_headers,
