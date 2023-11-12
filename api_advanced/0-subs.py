@@ -8,7 +8,7 @@ def number_of_subscribers(subreddit):
     URL = "https://www.reddit.com/r/{}/about.json".format(subreddit)
 
     my_headers = {
-        "User-Agent": "LetsGo/0.1 by Justice00101"
+        "User-Agent": "LetsGo/0.1 (by u/Justice00101)"
         }
 
     raw_response = requests.get(URL, headers=my_headers, allow_redirects=False)
